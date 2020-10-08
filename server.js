@@ -1,19 +1,31 @@
-const customExpress = require('./config/custom-express')
+const {GraphQLServer} = require('graphql-yoga')
 const conexao = require('./infraestrutura/conexao')
 const Tabelas = require('./infraestrutura/database/tabelas')
 
-const app = customExpress()
+const Operacoes = require('./infraestrutura/operations')
 
 conexao.connect(erro => {
-  if (erro) {
-    console.log(erro)
-  }
-
-  console.log('conectou no banco')
-
-  Tabelas.init(conexao)
+    if (erro) {
+        console.log(erro)
+    }
+    console.log('conectou no banco')
+    Tabelas.init(conexao)
 })
 
-app.listen(4000, () => {
-  console.log('Servidor rodando na porta 4000')
+const Clientes = new Operacoes('cliente')
+const resolvers = {
+    Mutation: {
+        adicionarCliente: (root, params) => Clientes.adiciona(params)
+    },
+    Query: {
+        status: () => 'Servidor respondendo'
+    }
+}
+
+const servidor = new GraphQLServer({
+    resolvers,
+    typeDefs: './schema.graphql',
+})
+servidor.start(() => {
+    console.log('Servidor Ouvindo!!!')
 })
