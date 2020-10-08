@@ -45,14 +45,17 @@ class Pet {
     adiciona(item) {
         const {nome, donoId, tipo, observacoes} = item
         const sql = `INSERT INTO Pets(nome, donoId, tipo, observacoes) 
-                        VALUES('${nome}', ${donoId}, '${tipo}', '${observacoes}')`
+                        VALUES('${nome}', ${donoId}, '${tipo}', '${observacoes}');
+                        SELECT * FROM Clientes where id = ${donoId}`
         return executaQuery(sql).then(resposta => {
+            console.log(resposta);
             return {
-                id: resposta.insertId,
-                nome: nome,
-                donoId: donoId,
-                tipo: tipo,
-                observacoes: observacoes
+                id: resposta[0].insertId,
+                nome,
+                donoId,
+                tipo,
+                observacoes,
+                dono: resposta[1][0],
             }
         })
     }
@@ -60,13 +63,21 @@ class Pet {
     atualiza(novoItem, id) {
         const {nome, donoId, tipo, observacoes} = novoItem
         const sql = `UPDATE Pets SET nome='${nome}', donoId=${donoId}, tipo='${tipo}', observacoes='${observacoes}' 
-                        WHERE id=${id}`
-        return executaQuery(sql).then(() => novoItem);
+                        WHERE id=${id};
+                        SELECT * FROM Clientes where id = ${donoId}`
+        return executaQuery(sql).then(resposta =>
+                ({
+                    id,
+                    nome,
+                    tipo,
+                    observacoes,
+                    dono: resposta[1][0],
+                }))
     }
 
     deleta(id) {
         const sql = `DELETE FROM Pets WHERE id=${id}`
-        return executaQuery(sql)
+        return executaQuery(sql).then(() => id);
     }
 }
 
