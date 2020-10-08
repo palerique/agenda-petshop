@@ -14,12 +14,13 @@ conexao.connect(erro => {
 
 const Clientes = new Operacoes('cliente')
 const resolvers = {
+    Query: {
+        status: () => 'Servidor respondendo',
+        clientes: () => Clientes.lista()
+    },
     Mutation: {
         adicionarCliente: (root, params) => Clientes.adiciona(params)
     },
-    Query: {
-        status: () => 'Servidor respondendo'
-    }
 }
 
 const servidor = new GraphQLServer({
