@@ -4,8 +4,8 @@ const pet = require('./pet')
 const servico = require('./servico')
 
 module.exports = {
-  atendimento,
-  cliente,
-  pet,
-  servico
+    atendimento,
+    cliente,
+    pet,
+    servico
 }

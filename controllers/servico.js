@@ -3,32 +3,32 @@ const Operations = require('../infraestrutura/operations')
 const Servicos = new Operations('servico')
 
 module.exports = app => {
-  app.get('/servicos', (req, res) => {
-    Servicos.lista(res)
-  })
+    app.get('/servicos', (req, res) => {
+        Servicos.lista()
+    })
 
-  app.get('/servicos/servico/:id', (req, res) => {
-    const { id } = req.params
+    app.get('/servicos/servico/:id', (req, res) => {
+        const {id} = req.params
 
-    Servicos.buscaPorId(res, id)
-  })
+        Servicos.buscaPorId(id)
+    })
 
-  app.post('/servicos/servico', (req, res) => {
-    const servico = req.body
+    app.post('/servicos/servico', (req, res) => {
+        const servico = req.body
 
-    Servicos.adiciona(res, servico)
-  })
+        Servicos.adiciona(servico)
+    })
 
-  app.put('/servicos/servico/:id', (req, res) => {
-    const { id } = req.params
-    const servico = req.body
+    app.put('/servicos/servico/:id', (req, res) => {
+        const {id} = req.params
+        const servico = req.body
 
-    Servicos.atualiza(res, servico, id)
-  })
+        Servicos.atualiza(servico, id)
+    })
 
-  app.delete('/servicos/servico/:id', (req, res) => {
-    const { id } = req.params
+    app.delete('/servicos/servico/:id', (req, res) => {
+        const {id} = req.params
 
-    Servicos.deleta(res, id)
-  })
+        Servicos.deleta(id)
+    })
 }

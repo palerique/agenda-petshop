@@ -1,6 +1,6 @@
 module.exports = {
-  atendimentos: [],
-  clientes: [],
-  pets: [],
-  servicos: []
+    atendimentos: [],
+    clientes: [],
+    pets: [],
+    servicos: []
 }

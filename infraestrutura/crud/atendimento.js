@@ -1,41 +1,41 @@
 const executaQuery = require('../database/queries')
 
 class Atendimento {
-  lista(res) {
-    const sql = 'SELECT * FROM Atendimentos'
+    lista() {
+        const sql = 'SELECT * FROM Atendimentos'
 
-    executaQuery(res, sql)
-  }
+        return executaQuery(sql)
+    }
 
-  buscaPorId(res, id) {
-    const sql = `SELECT * FROM Atendimentos WHERE id=${parseInt(id)}`
+    buscaPorId(id) {
+        const sql = `SELECT * FROM Atendimentos WHERE id=${parseInt(id)}`
 
-    executaQuery(res, sql)
-  }
+        return executaQuery(sql)
+    }
 
-  adiciona(res, item) {
-    const { cliente, pet, servico, status, observacoes } = item
-    const data = new Date().toLocaleDateString()
+    adiciona(item) {
+        const {cliente, pet, servico, status, observacoes} = item
+        const data = new Date().toLocaleDateString()
 
-    const sql = `INSERT INTO Atendimentos(clienteId, petId, servicoId, data, status, observacoes) VALUES(${cliente}, ${pet}, ${servico}, '${data}', '${status}', '${observacoes}')`
+        const sql = `INSERT INTO Atendimentos(clienteId, petId, servicoId, data, status, observacoes) VALUES(${cliente}, ${pet}, ${servico}, '${data}', '${status}', '${observacoes}')`
 
-    executaQuery(res, sql)
-  }
+        return executaQuery(sql)
+    }
 
-  atualiza(res, novoItem, id) {
-    const { cliente, pet, servico, status, observacoes } = item
-    const data = new Date.toLocaleDateString()
-  
-    const sql = `UPDATE Atendimentos SET clienteId=${cliente}, petId=${pet}, servicoId=${servico}, data='${data}', status='${status}' observacoes='${observacoes}' WHERE id=${id}`
+    atualiza(novoItem, id) {
+        const {cliente, pet, servico, status, observacoes} = item
+        const data = new Date.toLocaleDateString()
 
-    executaQuery(res, sql)
-  }
+        const sql = `UPDATE Atendimentos SET clienteId=${cliente}, petId=${pet}, servicoId=${servico}, data='${data}', status='${status}' observacoes='${observacoes}' WHERE id=${id}`
 
-  deleta(res, id) {
-    const sql = `DELETE FROM Atendimentos WHERE id=${id}`
+        return executaQuery(sql)
+    }
 
-    executaQuery(res, sql)
-  }
+    deleta(id) {
+        const sql = `DELETE FROM Atendimentos WHERE id=${id}`
+
+        return executaQuery(sql)
+    }
 }
 
 module.exports = new Atendimento
