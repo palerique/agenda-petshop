@@ -1,5 +1,19 @@
 const executaQuery = require('../database/queries')
 
+function getPetsMap(pets) {
+    return pets.map(pet => ({
+        id: pet.id,
+        nome: pet.nome,
+        tipo: pet.tipo,
+        observacoes: pet.observacoes,
+        dono: {
+            id: pet.donoId,
+            nome: pet.donoNome,
+            cpf: pet.donoCpf,
+        }
+    }));
+}
+
 class Pet {
     lista() {
         const sql = `SELECT Pets.id,
@@ -11,24 +25,21 @@ class Pet {
                             cliente.cpf  as donoCpf
                      FROM Pets
                               INNER join Clientes cliente on Pets.donoId = cliente.id`
-        return executaQuery(sql).then(pets => {
-            return pets.map(pet => ({
-                id: pet.id,
-                nome: pet.nome,
-                tipo: pet.tipo,
-                observacoes: pet.observacoes,
-                dono: {
-                    id: pet.donoId,
-                    nome: pet.donoNome,
-                    cpf: pet.donoCpf,
-                }
-            }))
-        })
+        return executaQuery(sql).then(pets => (getPetsMap(pets)))
     }
 
     buscaPorId(id) {
-        const sql = `SELECT * FROM Pets WHERE id=${parseInt(id)}`
-        return executaQuery(sql).then(resposta => resposta[0])
+        const sql = `SELECT Pets.id,
+                            Pets.nome,
+                            Pets.tipo,
+                            Pets.observacoes,
+                            cliente.id   as donoId,
+                            cliente.nome as donoNome,
+                            cliente.cpf  as donoCpf
+                     FROM Pets
+                              INNER join Clientes cliente on Pets.donoId = cliente.id
+                              WHERE Pets.id=${parseInt(id)}`
+        return executaQuery(sql).then(pets => (getPetsMap(pets))[0])
     }
 
     adiciona(item) {

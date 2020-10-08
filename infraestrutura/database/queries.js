@@ -3,7 +3,7 @@ const conexao = require('../conexao')
 const executaQuery = (query) => {
     return new Promise((resolve, reject) => {
         conexao.query(query, (erro, resultados, campos) => {
-            console.log('executou a query!')
+            console.log(`executou a query! ${new Date().toISOString()}`)
             if (erro) {
                 reject(erro)
             } else {
