@@ -1,8 +1,8 @@
 type Atendimento {
     id: ID!
-    clienteId: Int!
-    petId: Int!
-    servicoId: Int!
+    cliente: Cliente!
+    pet: Pet!
+    servico: Servico!
     data: String
     status: String
     observacoes: String
